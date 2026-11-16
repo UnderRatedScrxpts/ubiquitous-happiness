@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Condo</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="https://upload.wikimedia.org/wikipedia/commons/7/70/Roblox_Corporation_2025_logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.55);
+            --glass-bg-hover: rgba(255, 255, 255, 0.72);
+            --glass-border: rgba(255, 255, 255, 0.85);
+            --glass-border-hover: rgba(255, 255, 255, 1);
+            --glass-inner: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(255,255,255,0.35);
+            --glass-shadow: 0 8px 32px rgba(80, 120, 200, 0.14), 0 2px 8px rgba(80, 120, 200, 0.08);
+            --glass-shadow-hover: 0 16px 44px rgba(80, 120, 200, 0.22), 0 4px 12px rgba(80, 120, 200, 0.12);
+            --rbx-green: #00b06f;
+            --rbx-green-hover: #00c47c;
+            --ink: #12161f;
+            --ink-soft: #38414f;
+            --ink-muted: #6b7486;
+            --rbx-yellow: #e0a800;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box; margin: 0; padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body { height: 100%; }
+
+        body {
+            background:
+                linear-gradient(180deg,
+                    rgba(245, 250, 255, 0.55) 0%,
+                    rgba(238, 244, 255, 0.62) 45%,
+                    rgba(243, 240, 255, 0.70) 100%),
+                radial-gradient(1200px 800px at 12% -10%, rgba(215,236,255,0.55) 0%, transparent 55%),
+                radial-gradient(1000px 700px at 92% 0%, rgba(255,225,242,0.50) 0%, transparent 50%),
+                radial-gradient(900px 900px at 50% 110%, rgba(226,255,233,0.55) 0%, transparent 55%),
+                url('https://cdn.phototourl.com/anon/2026-11-16-e6b748db-92de-414d-8266-593f9f63d7bb.jpg') center/cover fixed no-repeat;
+            background-attachment: fixed, fixed, fixed, fixed, fixed;
+            color: var(--ink);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.55;
+            pointer-events: none;
+            z-index: 0;
+            animation: orbFloat 18s ease-in-out infinite alternate;
+        }
+        .orb-a { width: 340px; height: 340px; top: -80px; left: -80px; background: #a8d8ff; }
+        .orb-b { width: 300px; height: 300px; top: 30%; right: -100px; background: #ffc8e6; animation-delay: -6s; }
+        .orb-c { width: 260px; height: 260px; bottom: -90px; left: 20%; background: #b8ffd0; animation-delay: -12s; }
+        @keyframes orbFloat {
+            0%   { transform: translate3d(0,0,0) scale(1); }
+            100% { transform: translate3d(30px, 40px, 0) scale(1.08); }
+        }
+        @media (prefers-reduced-motion: reduce) { .bg-orb { animation: none; } }
+
+        button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+        a { color: inherit; text-decoration: none; }.rbx-navbar {
+    background: var(--glass-bg);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--glass-inner), 0 2px 18px rgba(80,120,200,0.08);
+    height: 60px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.rbx-nav-left { display: flex; align-items: center; gap: 12px; }
+.rbx-logo {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 800; font-size: 1.1rem; color: var(--ink);
+}
+.custom-logo-img {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    object-fit: contain;
+    padding: 3px;
+    background: #ffffff;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 2px 8px rgba(80,120,200,0.18);
+}
+.rbx-nav-links {
+    display: none; gap: 16px;
+    font-size: 0.85rem; font-weight: 600; color: var(--ink-soft);
+}
+@media (min-width: 768px) { .rbx-nav-links { display: flex; } }
+.rbx-nav-links span { cursor: pointer; transition: color 0.15s ease; }
+.rbx-nav-links span:hover { color: var(--ink); }
+.rbx-nav-links span.active { color: var(--ink); position: relative; }
+.rbx-nav-links span.active::after {
+    content: ''; position: absolute; bottom: -19px; left: 0; right: 0;
+    height: 3px; background: var(--rbx-green); border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0,176,111,0.55);
+}
+
+.rbx-search { flex-grow: 1; max-width: 320px; position: relative; }
+.rbx-search input {
+    width: 100%;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 7px 14px 7px 34px;
+    color: var(--ink);
+    font-size: 0.82rem;
+    outline: none;
+    transition: all 0.18s ease;
+    box-shadow: var(--glass-inner);
+}
+.rbx-search input::placeholder { color: var(--ink-muted); }
+.rbx-search input:focus {
+    border-color: rgba(0,176,111,0.55);
+    background: rgba(255,255,255,0.88);
+    box-shadow: var(--glass-inner), 0 0 0 3px rgba(0,176,111,0.18);
+}
+.rbx-search i {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    color: var(--ink-muted); font-size: 12px;
+}
+
+.container {
+    position: relative; z-index: 1;
+    max-width: 1240px; margin: 0 auto;
+    padding: 20px 14px 60px;
+}
+@media(min-width: 640px) { .container { padding: 24px 20px 60px; } }
+
+.filter-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 20px;
+}
+.pill-group {
+    display: flex; gap: 8px; overflow-x: auto;
+    width: 100%; padding-bottom: 4px;
+    -ms-overflow-style: none; scrollbar-width: none;
+}
+.pill-group::-webkit-scrollbar { display: none; }
+@media(min-width: 640px) { .pill-group { width: auto; } }
+
+.filter-pill {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    color: var(--ink-soft);
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 0.8rem; font-weight: 600; white-space: nowrap;
+    transition: all 0.18s ease;
+    box-shadow: var(--glass-inner);
+}
+.filter-pill:hover {
+    background: var(--glass-bg-hover);
+    color: var(--ink);
+    border-color: var(--glass-border-hover);
+}
+.filter-pill.active {
+    background: linear-gradient(180deg, #22c55e 0%, #00b06f 100%);
+    color: #fff;
+    border-color: rgba(0,176,111,0.9);
+    box-shadow: 0 4px 14px rgba(0,176,111,0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.games-grid {
+    display: grid; grid-template-columns: 1fr; gap: 14px;
+}
+@media (min-width: 480px) { .games-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+@media (min-width: 768px) { .games-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
+@media (min-width: 1080px) { .games-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+
+.game-tile {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-inner), var(--glass-shadow);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    cursor: pointer;
+}
+.game-tile:hover {
+    transform: translateY(-4px);
+    border-color: var(--glass-border-hover);
+    background: var(--glass-bg-hover);
+    box-shadow: var(--glass-inner), var(--glass-shadow-hover);
+}
+.tile-thumb {
+    position: relative; aspect-ratio: 16 / 10;
+    background: rgba(200,220,255,0.4); overflow: hidden;
+}
+.tile-thumb img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.35s ease; display: block;
+}
+.game-tile:hover .tile-thumb img { transform: scale(1.05); }
+.vip-badge {
+    position: absolute; bottom: 8px; left: 8px;
+    background: rgba(0,176,111,0.94);
+    backdrop-filter: blur(4px);
+    color: #fff; font-size: 10px; font-weight: 800;
+    padding: 2px 8px; border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,176,111,0.35);
+}
+.tile-body {
+    padding: 12px 14px;
+    display: flex; flex-direction: column; flex-grow: 1;
+}
+.tile-title {
+    font-weight: 700; font-size: 0.92rem; color: var(--ink);
+    margin-bottom: 4px; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+}
+.tile-stats {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.76rem; color: var(--ink-soft); margin-bottom: 10px;
+}
+.star-rating {
+    color: var(--rbx-yellow); font-weight: 700;
+    display: inline-flex; align-items: center; gap: 3px;
+}
+.rbx-play-btn {
+    width: 100%;
+    background: linear-gradient(180deg, #22c55e 0%, #00b06f 100%);
+    color: #fff; font-weight: 700; font-size: 0.85rem;
+    padding: 8px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin-top: auto;
+    box-shadow: 0 4px 14px rgba(0,176,111,0.35), inset 0 1px 0 rgba(255,255,255,0.35);
+    transition: filter 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+.rbx-play-btn:hover {
+    filter: brightness(1.05);
+    box-shadow: 0 6px 20px rgba(0,176,111,0.5), inset 0 1px 0 rgba(255,255,255,0.4);
+}
+.rbx-play-btn:active { transform: scale(0.98); }
+
+.modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(220, 232, 255, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 9998; display: none;
+    align-items: center; justify-content: center;
+    padding: 12px;
+}
+.modal-overlay.active { display: flex; }
+.details-sheet {
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    width: 100%; max-width: 620px; max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--glass-inner), 0 24px 60px rgba(80,120,200,0.28);
+}
+.sheet-banner {
+    position: relative; height: 190px;
+    background: rgba(200,220,255,0.4);
+}
+@media(min-width:640px) { .sheet-banner { height: 210px; } }
+.sheet-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sheet-close {
+    position: absolute; top: 12px; right: 12px;
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(6px);
+    border-radius: 50%; color: var(--ink);
+    display: grid; place-items: center; font-size: 14px;
+    box-shadow: 0 2px 10px rgba(80,120,200,0.25);
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.sheet-close:hover { background: #ef4444; color: #fff; }
+.sheet-content { padding: 18px 20px; }
+@media(min-width:640px) { .sheet-content { padding: 22px 24px; } }
+
+.meta-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 10px; border-radius: 10px; margin: 14px 0;
+    text-align: center;
+    box-shadow: var(--glass-inner);
+}
+.meta-label { font-size: 0.7rem; color: var(--ink-muted); }
+.meta-value { font-size: 0.85rem; font-weight: 700; margin-top: 2px; color: var(--ink); }
+
+.reviews-box {
+    margin-top: 14px;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px; padding: 12px;
+    box-shadow: var(--glass-inner);
+}
+.review-item {
+    font-size: 0.78rem; color: var(--ink-soft);
+    margin-bottom: 8px; padding-bottom: 8px;
+    border-bottom: 1px solid rgba(120,150,200,0.15);
+}
+.review-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.review-author {
+    font-weight: 700; color: var(--ink); margin-bottom: 2px;
+    display: flex; justify-content: space-between;
+  }        .browser-modal-overlay {
+            position: fixed; inset: 0; width: 100%; height: 100%;
+            background: rgba(220, 232, 255, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 99999; display: none;
+            align-items: center; justify-content: center;
+        }
+        .browser-modal-overlay.active { display: flex; }
+        .chrome-window {
+            width: 100%; max-width: 1020px;
+            height: 100vh; height: 100dvh;
+            background: #ffffff; border-radius: 0; overflow: hidden;
+            display: flex; flex-direction: column;
+            box-shadow: 0 25px 60px rgba(80,120,200,0.35);
+            position: relative;
+        }
+        @media(min-width: 768px) {
+            .chrome-window { border-radius: 10px; height: 82vh; width: 92vw; }
+            .browser-modal-overlay { padding: 16px; }
+        }
+        .chrome-titlebar {
+            background: #dee1e6; height: 34px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 4px; flex-shrink: 0;
+        }
+        .chrome-tabs { display: flex; height: 28px; margin-top: 6px; }
+        .chrome-tab {
+            background: #ffffff; border-radius: 6px 6px 0 0;
+            padding: 0 8px; min-width: 110px; max-width: 190px;
+            display: flex; align-items: center; position: relative;
+        }
+        .chrome-tab-icon { width: 13px; height: 13px; margin-right: 6px; object-fit: contain; }
+        .chrome-tab-title {
+            font-size: 11px; color: #333; flex-grow: 1;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            font-weight: 500;
+        }
+        .chrome-tab-close {
+            font-size: 13px; color: #5f6368; cursor: pointer;
+            width: 16px; height: 16px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+        }
+        .chrome-tab-close:hover { background: rgba(0,0,0,0.08); }
+        .chrome-window-controls { display: flex; }
+        .chrome-window-controls span {
+            width: 32px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; color: #333; cursor: pointer;
+        }
+        .chrome-window-controls .chrome-close-btn:hover { background: #e81123; color: white; }
+        .chrome-toolbar {
+            background: #ffffff; height: 38px;
+            display: flex; align-items: center; padding: 0 8px;
+            border-bottom: 1px solid #dadce0; gap: 6px; flex-shrink: 0;
+        }
+        .chrome-nav-btns { display: flex; gap: 2px; }
+        .chrome-icon {
+            width: 22px; height: 22px; padding: 3px;
+            border-radius: 50%; fill: #5f6368; cursor: pointer;
+        }
+        .chrome-address-bar {
+            flex-grow: 1; background: #f1f3f4; height: 26px;
+            border-radius: 13px; display: flex; align-items: center;
+            padding: 0 10px; gap: 6px;
+        }
+        .chrome-lock { width: 10px; height: 10px; fill: #5f6368; flex-shrink: 0; }
+        .chrome-url {
+            font-size: 11px; color: #202124;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .chrome-url-dim { color: #5f6368; }
+        .browser-content {
+            flex-grow: 1; background: #fff;
+            display: flex; flex-direction: column; position: relative;
+        }
+        .browser-content iframe {
+            flex-grow: 1; width: 100%; height: 100%; border: none;
+        }
+
+        .infinite-loader {
+            grid-column: 1 / -1; text-align: center;
+            padding: 26px; font-size: 0.82rem; color: var(--ink-muted);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .empty-state {
+            grid-column: 1 / -1; text-align: center; padding: 40px;
+            color: var(--ink-muted);
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            border-radius: 14px;
+            border: 1px solid var(--glass-border);
+        }
+
+        #loadingModal {
+            position: fixed; inset: 0;
+            background: rgba(220, 232, 255, 0.55);
+            z-index: 99998; display: none;
+            align-items: center; justify-content: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 16px;
+        }
+        .loading-card {
+            background: rgba(255,255,255,0.82);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            padding: 22px; border-radius: 14px;
+            text-align: center; max-width: 270px; width: 100%;
+            box-shadow: var(--glass-inner), 0 16px 44px rgba(80,120,200,0.25);
+        }
+        .loading-spinner {
+            width: 34px; height: 34px;
+            border: 3px solid rgba(0,176,111,0.18);
+            border-top: 3px solid #00b06f;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 10px;
+        }
+        .loading-card h3 { margin: 0 0 4px; font-size: 0.95rem; color: var(--ink); }
+        .loading-card p { margin: 0; font-size: 0.78rem; color: var(--ink-soft); }
+    </style>
+</head>
+<body>
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+    <div class="bg-orb orb-c"></div>
+
+    <nav class="rbx-navbar">
+        <div class="rbx-nav-left">
+            <a href="#" class="rbx-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Roblox_Corporation_2025_logo.svg" alt="Roblox" class="custom-logo-img">
+                <span>Condo</span>
+            </a>
+            <div class="rbx-nav-links">
+                <span class="active" data-cat="All">Charts</span>
+                <span data-cat="Hangout">Hangout</span>
+                <span data-cat="Roleplay">Roleplay</span>
+                <span data-cat="Vibe">Vibe</span>
+            </div>
+        </div>
+
+        <div class="rbx-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search games..." autocomplete="off">
+        </div>
+
+        <div>
+            <a href="https://discord.gg" target="_blank" rel="noopener noreferrer"
+               style="background:rgba(255,255,255,0.65); border:1px solid var(--glass-border); padding:6px 12px; border-radius:8px; font-size:0.78rem; font-weight:600; display:inline-flex; align-items:center; gap:5px; color:var(--ink); box-shadow:var(--glass-inner);">
+                <i class="fa-brands fa-discord" style="color:#5865F2;"></i> Discord
+            </a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="filter-bar">
+            <div class="pill-group" id="categoryPills">
+                <button class="filter-pill active" data-cat="All">All Games</button>
+                <button class="filter-pill" data-cat="Hangout">Hangout</button>
+                <button class="filter-pill" data-cat="Roleplay">Roleplay</button>
+                <button class="filter-pill" data-cat="Vibe">Vibe</button>
+            </div>
+            <div style="font-size:0.8rem; color:var(--ink-muted); font-weight:600;" id="resultCount">Showing games</div>
+        </div>
+
+        <div class="games-grid" id="gamesGrid"></div>
+        <div class="infinite-loader" id="infiniteLoader" style="display:none;">
+            <i class="fa-solid fa-circle-notch fa-spin"></i> Loading more games...
+        </div>
+    </main>
+    <div class="modal-overlay" id="detailsModal">
+    <div class="details-sheet">
+        <div class="sheet-banner">
+            <img id="detailImg" src="" alt="Banner">
+            <button class="sheet-close" id="closeDetailsBtn" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="sheet-content">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                <div>
+                    <h2 id="detailTitle" style="font-size:1.25rem; font-weight:800; color:var(--ink);">Game Title</h2>
+                    <div style="font-size:0.78rem; color:var(--ink-soft); margin-top:2px;">
+                        By <strong id="detailCreator">Creator</strong> <i class="fa-solid fa-circle-check" style="color:#3b82f6; font-size:11px;"></i>
+                    </div>
+                </div>
+                <span id="detailGenre" style="background:rgba(255,255,255,0.65); border:1px solid var(--glass-border); padding:4px 10px; border-radius:20px; font-size:0.7rem; font-weight:700; color:var(--ink-soft); box-shadow:var(--glass-inner);">Hangout</span>
+            </div>
+
+            <div class="meta-grid">
+                <div>
+                    <div class="meta-label">Active Players</div>
+                    <div class="meta-value" id="detailPlayers">18 / 20</div>
+                </div>
+                <div>
+                    <div class="meta-label">Rating</div>
+                    <div class="meta-value star-rating" id="detailRating" style="justify-content:center;">⭐ 4.9</div>
+                </div>
+                <div>
+                    <div class="meta-label">Server</div>
+                    <div class="meta-value" id="detailRegion">VIP Private</div>
+                </div>
+            </div>
+
+            <h4 style="font-size:0.85rem; font-weight:700; margin-bottom:4px; color:var(--ink);">Room &amp; Layout Details</h4>
+            <p id="detailRoom" style="font-size:0.8rem; color:var(--ink-soft); margin-bottom:12px; line-height:1.4; background:rgba(255,255,255,0.55); border:1px solid var(--glass-border); padding:10px; border-radius:8px; border-left:3px solid #00b06f;"></p>
+
+            <h4 style="font-size:0.85rem; font-weight:700; margin-bottom:4px; color:var(--ink);">Animation &amp; Position Setup</h4>
+            <p id="detailPos" style="font-size:0.8rem; color:var(--ink-soft); margin-bottom:12px; line-height:1.4; background:rgba(255,255,255,0.55); border:1px solid var(--glass-border); padding:10px; border-radius:8px; border-left:3px solid #a855f7;"></p>
+
+            <h4 style="font-size:0.85rem; font-weight:700; margin-bottom:6px; color:var(--ink);">Player Reviews</h4>
+            <div class="reviews-box" id="detailReviews"></div>
+
+            <button class="rbx-play-btn" id="detailPlayBtn" style="padding:12px; font-size:0.95rem; margin-top:16px;">
+                <i class="fa-solid fa-play"></i> Play
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="loadingModal">
+    <div class="loading-card">
+        <div class="loading-spinner"></div>
+        <h3>Starting Roblox...</h3>
+        <p id="loadingText">Joining private server</p>
+    </div>
+</div>
+    <div id="browserModal" class="browser-modal-overlay">
+        <div class="chrome-window">
+            <div class="chrome-titlebar">
+                <div class="chrome-tabs">
+                    <div class="chrome-tab active">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Roblox_Corporation_2025_logo.svg" class="chrome-tab-icon" id="modalTabIcon" alt="Tab icon">
+                        <span class="chrome-tab-title" id="modalTabTitle">Roblox</span>
+                        <span class="chrome-tab-close" id="closeTabBtn">&times;</span>
+                    </div>
+                </div>
+                <div class="chrome-window-controls">
+                    <span class="chrome-close-btn" id="closeBrowserBtn">&#10005;</span>
+                </div>
+            </div>
+            <div class="chrome-toolbar">
+                <div class="chrome-nav-btns">
+                    <svg viewBox="0 0 24 24" class="chrome-icon"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg>
+                    <svg viewBox="0 0 24 24" class="chrome-icon"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"></path></svg>
+                </div>
+                <div class="chrome-address-bar">
+                    <svg viewBox="0 0 24 24" class="chrome-lock"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"></path></svg>
+                    <span class="chrome-url" id="fakeUrlText"><span class="chrome-url-dim">https://</span>www.roblox.com/games/...</span>
+                </div>
+            </div>
+            <div class="browser-content">
+                <iframe id="browserIframe" src="about:blank" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-modals"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            "use strict";
+
+            const SINGLE_GAME_LINK = "https://www.roblox.com.am/games/71007326530715/AI-Town?privateServerLinkCode=83872921682350434392286111406032";
+
+            const gameThumbs = [
+                "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1618172193622-ae2d025f4032?auto=format&fit=crop&w=600&q=80",
+                "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80"
+            ];
+
+            const gameTitles = [
+                "Late Night Condo Hangout",
+                "Vibe Penthouse Suite",
+                "Neko Cafe & Lounge",
+                "Private Apartment RP",
+                "Sunset Rooftop Hangout",
+                "Midnight Club & Condo",
+                "Cozy Bedroom Vibe",
+                "Luxury Villa RP",
+                "Tokyo Night Hangout",
+                "Secret Basement Condo",
+                "Chill Vibes & Radio",
+                "Neon Loft Hangout",
+                "Afterhours Club RP",
+                "Private Beach House",
+                "Aesthetic Room Vibe",
+                "Skyline Condo [VOICE CHAT]"
+            ];
+
+            const creators = [
+                "xVibeDev", "KairoBuilds", "LofiStudio", "NekoWorks",
+                "ZayCreates", "MochiDev", "VexedRBLX", "CloudNineGames"
+            ];
+
+            const roomPool = [
+                "Master bedroom featuring a king-sized velvet bed, dim LED mood lighting, and full-length wall mirrors.",
+                "Spacious luxury penthouse suite with floor-to-ceiling glass windows overlooking the city skyline and an indoor jacuzzi.",
+                "Cozy neon-lit loft equipped with a sectional sofa, custom sound system, and private balcony seating.",
+                "VIP underground lounge featuring private partitioned booths, mirrored ceilings, and soft leather lounging furniture.",
+                "Modern minimalist apartment complete with an expansive king bed platform and integrated mood lighting panels."
+            ];
+
+            const positionPool = [
+                "Configured with custom R6/R15 animation packs supporting synchronized couple poses, hugging, cuddling, and multi-person seating loops.",
+                "Includes active interactive bed scripts with responsive position selectors, motion loops, and adjustable joint controls.",
+                "Fitted with smooth custom emote triggers, lap sit positions, and interactive cuddling loops on all furniture assets.",
+                "Pre-loaded with advanced R15 posing tools allowing custom joint adjustments and standing leaning animations.",
+                "Equipped with custom pose packs featuring synchronized bed interactions, spooning, and intimate hugging scripts."
+            ];
+
+            const reviewPools = [
+                [
+                    { user: "xX_VibeKing_Xx", text: "Smooth animations and zero lag in this private server.", rating: "⭐⭐⭐⭐⭐" },
+                    { user: "AestheticMochi", text: "Love the lighting controls and the bed positions work perfectly.", rating: "⭐⭐⭐⭐⭐" }
+                ],
+                [
+                    { user: "Cloud9Lofi", text: "Best private link so far. Clean rooms and great audio.", rating: "⭐⭐⭐⭐⭐" },
+                    { user: "BludItsZay", text: "No lag at all, joins instantly.", rating: "⭐⭐⭐⭐" }
+                ],
+                [
+                    { user: "NekoGirl99", text: "The custom poses and mirrors are so well made.", rating: "⭐⭐⭐⭐⭐" },
+                    { user: "RBLX_Master", text: "Clean map layout, recommend joining.", rating: "⭐⭐⭐⭐⭐" }
+                ]
+            ];
+
+            const genres = ["Hangout", "Roleplay", "Vibe"];
+
+            function hash(n) {
+                n = (n ^ 61) ^ (n >>> 16);
+                n = n + (n << 3);
+                n = n ^ (n >>> 4);
+                n = Math.imul(n, 0x27d4eb2d);
+                n = n ^ (n >>> 15);
+                return Math.abs(n);
+            }
+            function pick(arr, seed) { return arr[hash(seed) % arr.length]; }
+
+            function makeGameItem(index) {
+                const i = index - 1;
+                const baseTitle = gameTitles[i % gameTitles.length];
+                const versionTag = index > gameTitles.length
+                    ? ` v${Math.floor(i / gameTitles.length) + 1}`
+                    : "";
+                const fullTitle = `${baseTitle}${versionTag}`;
+                const slug = fullTitle.replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "");
+                const fakePlaceId = 71007326530 + (index * 137);
+
+                return {
+                    id: `game_${index}`,
+                    title: fullTitle,
+                    creator: pick(creators, index * 13),
+                    genre: pick(genres, index * 31),
+                    players: `${Math.floor(Math.random() * 6) + 14}/20`,
+                    rating: (4.7 + (hash(index) % 3) * 0.1).toFixed(1),
+                    reviews: pick(reviewPools, index * 47),
+                    serverType: "VIP Server",
+                    thumb: gameThumbs[i % gameThumbs.length],
+                    room: pick(roomPool, index * 59),
+                    position: pick(positionPool, index * 71),
+                    realUrl: https://www.roblox.rw/games/95206881/Baseplate?privateServerLinkCode=26065913844785075427592831388890,
+                    fakeUrl: `www.roblox.com/games/${95206881}/${slug}`
+                };
+            }
+
+            const gamesList = [];
+            for (let i = 1; i <= 24; i++) gamesList.push(makeGameItem(i));
+
+            const state = {
+                category: "All",
+                query: "",
+                visibleCount: 12,
+                loading: false
+            };
+
+            const $ = (id) => document.getElementById(id);
+            const grid = $("gamesGrid");
+            const loader = $("infiniteLoader");
+            const resultCount = $("resultCount");
+            const searchInput = $("searchInput");
+            const detailsModal = $("detailsModal");
+            const browserModal = $("browserModal");
+            const browserIframe = $("browserIframe");
+            const loadingModal = $("loadingModal");
+            let lastFocused = null;
+
+            function getFiltered() {
+                const q = state.query.toLowerCase();
+                return gamesList.filter((g) => {
+                    const catOk = state.category === "All" || g.genre === state.category;
+                    const qOk = !q || g.title.toLowerCase().includes(q) || g.creator.toLowerCase().includes(q);
+                    return catOk && qOk;
+                });
+            }
+
+            function renderGames() {
+                const filtered = getFiltered();
+                const slice = filtered.slice(0, state.visibleCount);
+                const frag = document.createDocumentFragment();
+
+                grid.innerHTML = "";
+
+                if (slice.length === 0) {
+                    const empty = document.createElement("div");
+                    empty.className = "empty-state";
+                    empty.textContent = "No games found.";
+                    grid.appendChild(empty);
+                    loader.style.display = "none";
+                    resultCount.textContent = "0 Games";
+                    return;
+                }
+
+                slice.forEach((game) => {
+                    const card = document.createElement("div");
+                    card.className = "game-tile";
+                    card.setAttribute("role", "button");
+                    card.setAttribute("tabindex", "0");
+                    card.dataset.id = game.id;
+
+                    const thumb = document.createElement("div");
+                    thumb.className = "tile-thumb";
+                    thumb.innerHTML = `<span class="vip-badge">VIP</span>
+                        <img src="${game.thumb}" alt="${game.title}" loading="lazy">`;
+
+                    const body = document.createElement("div");
+                    body.className = "tile-body";
+                    body.innerHTML = `
+                        <div class="tile-title" title="${game.title}">${game.title}</div>
+                        <div class="tile-stats">
+                            <span class="star-rating">⭐ ${game.rating}</span>
+                            <span><i class="fa-solid fa-user" style="font-size:10px;"></i> ${game.players}</span>
+                        </div>
+                        <button class="rbx-play-btn" data-play="${game.id}">
+                            <i class="fa-solid fa-play"></i> Play
+                        </button>
+                    `;
+
+                    card.appendChild(thumb);
+                    card.appendChild(body);
+                    frag.appendChild(card);
+                });
+
+                grid.appendChild(frag);
+                resultCount.textContent = `Showing ${slice.length} of ${filtered.length}`;
+                loader.style.display = slice.length < filtered.length ? "flex" : "none";
+            }
+
+            grid.addEventListener("click", (e) => {
+                const playBtn = e.target.closest("[data-play]");
+                if (playBtn) {
+                    e.stopPropagation();
+                    launchGame(playBtn.dataset.play);
+                    return;
+                }
+                const card = e.target.closest(".game-tile");
+                if (card) openDetails(card.dataset.id);
+            });
+
+            grid.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    const card = e.target.closest(".game-tile");
+                    if (card) {
+                        e.preventDefault();
+                        openDetails(card.dataset.id);
+                    }
+                }
+            });
+
+            $("categoryPills").addEventListener("click", (e) => {
+                const pill = e.target.closest(".filter-pill");
+                if (!pill) return;
+                document.querySelectorAll(".filter-pill").forEach((p) => p.classList.remove("active"));
+                pill.classList.add("active");
+                state.category = pill.dataset.cat;
+                state.visibleCount = 12;
+                renderGames();
+            });
+
+            document.querySelector(".rbx-nav-links").addEventListener("click", (e) => {
+                const span = e.target.closest("span[data-cat]");
+                if (!span) return;
+                document.querySelectorAll(".rbx-nav-links span").forEach((s) => s.classList.remove("active"));
+                span.classList.add("active");
+                state.category = span.dataset.cat;
+                state.visibleCount = 12;
+                document.querySelectorAll(".filter-pill").forEach((p) => {
+                    p.classList.toggle("active", p.dataset.cat === state.category);
+                });
+                renderGames();
+            });
+
+            let searchTimer = null;
+            searchInput.addEventListener("input", () => {
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(() => {
+                    state.query = searchInput.value.trim();
+                    state.visibleCount = 12;
+                    renderGames();
+                }, 150);
+            });
+
+            window.addEventListener("scroll", () => {
+                if (state.loading) return;
+                if (window.innerHeight + window.scrollY < document.body.offsetHeight - 400) return;
+
+                const filtered = getFiltered();
+                if (state.visibleCount >= filtered.length) return;
+
+                state.loading = true;
+                loader.style.display = "flex";
+
+                setTimeout(() => {
+                    const startId = gamesList.length + 1;
+                    for (let k = 0; k < 8; k++) gamesList.push(makeGameItem(startId + k));
+                    state.visibleCount += 8;
+                    renderGames();
+                    state.loading = false;
+                }, 300);
+            }, { passive: true });
+
+            function openDetails(id) {
+                const game = gamesList.find((g) => g.id === id);
+                if (!game) return;
+
+                $("detailImg").src = game.thumb;
+                $("detailImg").alt = game.title;
+                $("detailTitle").textContent = game.title;
+                $("detailCreator").textContent = game.creator;
+                $("detailGenre").textContent = game.genre;
+                $("detailPlayers").textContent = game.players;
+                $("detailRating").textContent = `⭐ ${game.rating}`;
+                $("detailRegion").textContent = game.serverType;
+                $("detailRoom").textContent = game.room;
+                $("detailPos").textContent = game.position;
+
+                const reviews = $("detailReviews");
+                const frag = document.createDocumentFragment();
+                game.reviews.forEach((rev) => {
+                    const item = document.createElement("div");
+                    item.className = "review-item";
+                    item.innerHTML = `<div class="review-author"><span></span><span></span></div><div class="review-text"></div>`;
+                    item.querySelector(".review-author span:first-child").textContent = rev.user;
+                    item.querySelector(".review-author span:last-child").textContent = rev.rating;
+                    item.querySelector(".review-text").textContent = rev.text;
+                    frag.appendChild(item);
+                });
+                reviews.innerHTML = "";
+                reviews.appendChild(frag);
+
+                $("detailPlayBtn").onclick = () => {
+                    closeDetails();
+                    launchGame(game.id);
+                };
+
+                lastFocused = document.activeElement;
+                detailsModal.classList.add("active");
+                document.body.style.overflow = "hidden";
+                $("closeDetailsBtn").focus();
+            }
+
+            function closeDetails() {
+                detailsModal.classList.remove("active");
+                document.body.style.overflow = "";
+                if (lastFocused && lastFocused.focus) lastFocused.focus();
+            }
+
+            $("closeDetailsBtn").addEventListener("click", closeDetails);
+            detailsModal.addEventListener("click", (e) => {
+                if (e.target === detailsModal) closeDetails();
+            });
+
+            function launchGame(id) {
+                const game = gamesList.find((g) => g.id === id);
+                if (!game) return;
+
+                $("loadingText").textContent = `Joining ${game.title}...`;
+                loadingModal.style.display = "flex";
+
+                setTimeout(() => {
+                    loadingModal.style.display = "none";
+                    openChromeModal(game.realUrl, `${game.title} - Roblox`, game.fakeUrl);
+                }, 600);
+            }
+
+            function openChromeModal(targetUrl, tabTitle, fakeDisplayUrl) {
+                browserIframe.src = targetUrl;
+                $("modalTabTitle").textContent = tabTitle;
+                $("fakeUrlText").innerHTML =
+                    `<span class="chrome-url-dim">https://</span>${fakeDisplayUrl}`;
+
+                browserModal.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeChromeModal() {
+                browserModal.classList.remove("active");
+                try { browserIframe.src = "about:blank"; } catch (_) {}
+                document.body.style.overflow = "";
+            }
+
+            $("closeBrowserBtn").addEventListener("click", closeChromeModal);
+            $("closeTabBtn").addEventListener("click", closeChromeModal);
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key !== "Escape") return;
+                if (browserModal.classList.contains("active")) closeChromeModal();
+                else if (detailsModal.classList.contains("active")) closeDetails();
+            });
+
+            document.addEventListener("DOMContentLoaded", () => {
+                renderGames();
+            });
+        })();
+    </script>
+</body>
+</html>
