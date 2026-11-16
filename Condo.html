@@ -328,7 +328,7 @@
 .review-author {
     font-weight: 700; color: var(--ink); margin-bottom: 2px;
     display: flex; justify-content: space-between;
-  }        .browser-modal-overlay {
+    }        .browser-modal-overlay {
             position: fixed; inset: 0; width: 100%; height: 100%;
             background: rgba(220, 232, 255, 0.55);
             backdrop-filter: blur(12px);
@@ -591,7 +591,7 @@
     <script>
         (function () {
             "use strict";
-            
+
             const SINGLE_GAME_LINK = "https://www.roblox.rw/games/95206881/Baseplate?privateServerLinkCode=26065913844785075427592831388890";
 
             const gameThumbs = [
@@ -629,7 +629,7 @@
 
             const roomPool = [
                 "Master bedroom featuring a king-sized velvet bed, dim LED mood lighting, and full-length wall mirrors.",
-                "Spacious luxury penthouse suite with floor-to-ceiling glass 
+                "Spacious luxury penthouse suite with floor-to-ceiling glass windows overlooking the city skyline and an indoor jacuzzi.",
                 "Cozy neon-lit loft equipped with a sectional sofa, custom sound system, and private balcony seating.",
                 "VIP underground lounge featuring private partitioned booths, mirrored ceilings, and soft leather lounging furniture.",
                 "Modern minimalist apartment complete with an expansive king bed platform and integrated mood lighting panels."
@@ -693,7 +693,7 @@
                     room: pick(roomPool, index * 59),
                     position: pick(positionPool, index * 71),
                     realUrl: SINGLE_GAME_LINK,
-                    fakeUrl: `www.roblox.com/games/${95206881}/${slug}`
+                    fakeUrl: `www.roblox.com/games/${fakePlaceId}/${slug}`
                 };
             }
 
